@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Valentine's Surprise</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    /* Reset and basic box sizing */
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start; /* Align items toward the top */
+      min-height: 100vh;
+      background-color: #ffdde1;
+      font-family: Arial, sans-serif;
+      overflow: hidden;
+      position: relative;
+      padding-top: 30px; /* Adjust this value to move items higher or lower */
+    }
+
+    h1 {
+      font-size: 2em;
+      margin-bottom: 20px;
+    }
+
+    .container {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+      margin-bottom: 20px;
+    }
+
+    .envelope {
+      width: 200px;
+      height: 150px;
+      background-color: #ff4d6d;
+      position: relative;
+      cursor: pointer;
+      transition: transform 0.5s;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 10px;
+      font-size: 2em;
+    }
+
+    .flap {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 50%;
+      background-color: #ff6b81;
+      clip-path: polygon(0 0, 100% 0, 50% 100%);
+      transition: transform 0.5s;
+    }
+
+    .envelope.open .flap {
+      transform: rotateX(180deg);
+    }
+
+    .quiz-container,
+    .content {
+      display: none;
+      text-align: center;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+      margin-top: 20px;
+      width: 100%;
+      max-width: 400px;
+    }
+
+    /* CSS for pink, smooth hearts now facing down */
+    .heart {
+      position: fixed;
+      width: 20px;
+      height: 20px;
+      background: #ff69b4;
+      transform: rotate(-45deg);
+      animation: floatDown linear;
+      pointer-events: none;
+    }
+    .heart:before,
+    .heart:after {
+      content: "";
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: #ff69b4;
+      border-radius: 50%;
+    }
+    .heart:before {
+      top: -10px;
+      left: 0;
+    }
+    .heart:after {
+      left: 10px;
+      top: 0;
+    }
+    @keyframes floatDown {
+      0% {
+        transform: translateY(0) rotate(-45deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(100vh) rotate(-45deg);
+        opacity: 0;
+      }
+    }
+
+    /* CSS for the moving photo strip with rectangular images */
+    #photo-strip {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      overflow: hidden;
+      background-color: rgba(255, 255, 255, 0.8);
+      height: 150px; /* Increased container height */
+    }
+    .strip {
+      display: flex;
+      width: max-content;
+      animation: scrollPhotos 20s linear infinite;
+    }
+    .strip img {
+      height: 150px;
+      width: 250px;         /* Fixed width to create a rectangle */
+      object-fit: cover;    /* Ensures the image fills the rectangle */
+      margin-right: 10px;
+    }
+    @keyframes scrollPhotos {
+      0% {
+        transform: translateX(0);
+      }
+      100% {
+        transform: translateX(-50%);
+      }
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 1.5em;
+      }
+      .envelope {
+        width: 150px;
+        height: 110px;
+        font-size: 1.5em;
+      }
+      .quiz-container, .content {
+        width: 90%;
+        max-width: 350px;
+        padding: 15px;
+      }
+      .strip img {
+        height: 120px;
+        width: 200px;
+        margin-right: 8px;
+      }
+      #photo-strip {
+        height: 120px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>Click the Envelope!</h1>
+  <!-- Background Music -->
+  <audio id="bg-music" loop>
+    <source src="bg.mp3" type="audio/mpeg" />
+  </audio>
+
+  <div class="container">
+    <div class="envelope" id="envelope">
+      <div class="flap"></div>
+      💌
+    </div>
+  </div>
+
+  <div class="quiz-container" id="quiz">
+    <h2>Answer this to unlock the letter!</h2>
+    <div id="question-container"></div>
+    <input type="text" id="answer" placeholder="Your answer here" />
+    <button id="submit-answer">Submit Answer</button>
+  </div>
+
+  <div class="content" id="content">
+    <h2>My Love Letter</h2>
+    <p class="handwritten">
+        Hi!
+            
+        我諗你應該完全估唔到，我會整個網站俾你。但有趣嘅係，其實靈感來自你。
+        
+        記唔記得你之前用 LaTeX 整咗 Kuromi 俾我？當時我真係好開心——唔單止因為你花時間同心思去整，仲因為你願意學新嘢去完成呢件事。呢一點，對我嚟講特別有意義。
+        
+        我特別欣賞 懂得成長 嘅人，願意挑戰自己、學習新嘢。而當時你就正正展現咗呢種特質。
+        
+        所以，呢個網站就當係一份 俾你嘅小小回應，因為靈感，來自你。 ❤️
+    </p>
+  </div>
+
+  <!-- Moving Photo Strip at the Bottom -->
+  <div id="photo-strip">
+    <div class="strip">
+      <img src="IMG_1340.jpeg" alt="Photo 1" />
+      <img src="IMG_2472.jpeg" alt="Photo 2" />
+      <img src="IMG_2486.jpeg" alt="Photo 3" />
+      <img src="IMG_2614.jpeg" alt="Photo 4" />
+      <img src="IMG_2963.jpeg" alt="Photo 5" />
+      <img src="IMG_3252.jpeg" alt="Photo 6" />
+      <img src="IMG_3349.jpeg" alt="Photo 7" />
+      <img src="IMG_3503.jpeg" alt="Photo 8" />
+      <!-- Duplicate images for continuous loop -->
+      <img src="IMG_1340.jpeg" alt="Photo 1" />
+      <img src="IMG_2472.jpeg" alt="Photo 2" />
+      <img src="IMG_2486.jpeg" alt="Photo 3" />
+      <img src="IMG_2614.jpeg" alt="Photo 4" />
+      <img src="IMG_2963.jpeg" alt="Photo 5" />
+      <img src="IMG_3252.jpeg" alt="Photo 6" />
+      <img src="IMG_3349.jpeg" alt="Photo 7" />
+      <img src="IMG_3503.jpeg" alt="Photo 8" />
+    </div>
+  </div>
+
+  <script>
+    const questions = [
+      { question: "Where did we first meet?", answer: "cafe" },
+      { question: "What is my favorite color?", answer: "blue" },
+      { question: "Which movie did we watch together first?", answer: "inception" },
+      { question: "What is my favorite food?", answer: "sushi" },
+      { question: "Where was our last trip together?", answer: "paris" }
+    ];
+    let currentQuestionIndex = 0;
+    let letterOpened = false; // Flag to track if the letter is already open
+
+    function openEnvelope() {
+      // If the letter is already open, do nothing.
+      if (letterOpened) return;
+      
+      document.getElementById("envelope").classList.add("open");
+      document.getElementById("quiz").style.display = "block";
+      createHearts();
+      loadQuestion();
+    }
+
+    function loadQuestion() {
+      const container = document.getElementById("question-container");
+      if (currentQuestionIndex < questions.length) {
+        container.innerHTML = `<p>${questions[currentQuestionIndex].question}</p>`;
+      }
+    }
+
+    function checkAnswer() {
+      const userAnswer = document.getElementById("answer").value.trim().toLowerCase();
+      if (currentQuestionIndex < questions.length && userAnswer === questions[currentQuestionIndex].answer) {
+        currentQuestionIndex++;
+        if (currentQuestionIndex < questions.length) {
+          loadQuestion();
+          document.getElementById("answer").value = "";
+        } else {
+          // When the last question is answered, remove the quiz box and show the letter.
+          letterOpened = true;
+          document.getElementById("quiz").remove();
+          document.getElementById("content").style.display = "block";
+          // Start background music as the love letter opens.
+          document.getElementById("bg-music").play();
+        }
+      } else {
+        alert("Oops! Try again!");
+      }
+    }
+
+    function createHearts() {
+      for (let i = 0; i < 20; i++) {
+        let heart = document.createElement("div");
+        heart.className = "heart";
+        heart.style.left = Math.random() * window.innerWidth + "px";
+        // Start just above the viewport so they float downward
+        heart.style.top = "-20px";
+        heart.style.animationDuration = (2 + Math.random() * 3) + "s";
+        document.body.appendChild(heart);
+        heart.addEventListener("animationend", () => heart.remove());
+      }
+    }
+
+    document.getElementById("envelope").addEventListener("click", openEnvelope);
+    document.getElementById("submit-answer").addEventListener("click", checkAnswer);
+  </script>
+</body>
+</html>

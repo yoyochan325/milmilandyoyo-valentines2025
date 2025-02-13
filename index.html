@@ -199,7 +199,6 @@
   <div class="content" id="content">
     <h2>My Love Letter</h2>
     <p class="handwritten">
-        
         Mil Mil情人節快樂！
             
 我諗你應該完全估唔到，我會整個網站俾你。但有趣嘅係，其實靈感來自你。
@@ -255,7 +254,7 @@ Mil Mil 多謝你，伴我惶恐歲月中漂盪。
 
     function openEnvelope() {
       // If the letter is already open, do nothing.
-      if (letterOpened) ret
+      if (letterOpened) return;
       
       document.getElementById("envelope").classList.add("open");
       document.getElementById("quiz").style.display = "block";
@@ -272,7 +271,10 @@ Mil Mil 多謝你，伴我惶恐歲月中漂盪。
 
     function checkAnswer() {
       const userAnswer = document.getElementById("answer").value.trim().toLowerCase();
-      if (currentQuestionIndex < questions.length && userAnswer === questions[currentQuestionIndex].answer) {
+      if (
+        currentQuestionIndex < questions.length &&
+        userAnswer === questions[currentQuestionIndex].answer.toLowerCase()
+      ) {
         currentQuestionIndex++;
         if (currentQuestionIndex < questions.length) {
           loadQuestion();

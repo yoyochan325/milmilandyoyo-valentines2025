@@ -14,3 +14,10 @@ document.getElementById("bg-music").play()
     }
   }
   
+  if (
+    currentQuestionIndex < questions.length &&
+    userAnswer === questions[currentQuestionIndex].answer.toLowerCase()
+  ) {
+    // Answer is correct, proceed...
+  }
+  

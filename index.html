@@ -22,7 +22,7 @@
       min-height: 100vh;
       background-color: #ffdde1;
       font-family: Arial, sans-serif;
-      overflow: hidden;
+      overflow-x: hidden; /* Allow vertical scrolling, hide horizontal overflow */
       position: relative;
       padding-top: 30px; /* Adjust this value to move items higher or lower */
     }
@@ -78,8 +78,10 @@
       box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
       margin-top: 20px;
       width: 100%;
-      max-width: 1000px; /* Increased max-width for a wider container */
+      max-width: 600px; /* Wider container */
       margin-bottom: 170px; /* Space to avoid overlap with the photo strip */
+      max-height: calc(100vh - 170px); /* Maximum height based on viewport */
+      overflow-y: auto; /* Enable vertical scrolling */
     }
 
     /* CSS for pink, smooth hearts now facing down */
@@ -151,7 +153,7 @@
     }
 
     /* Responsive adjustments */
-    @media (max-width: 1000px) {
+    @media (max-width: 600px) {
       h1 {
         font-size: 1.5em;
       }
@@ -165,6 +167,7 @@
         max-width: 500px; /* Slightly reduced for smaller screens */
         padding: 15px;
         margin-bottom: 140px; /* Adjusted margin for smaller screens */
+        max-height: calc(100vh - 140px);
       }
       .strip img {
         height: 120px;
